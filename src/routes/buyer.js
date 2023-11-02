@@ -1,5 +1,5 @@
 const express = require ('express');
 const router = express.Router();
-router.post('/',)
-
-export default router;
+const BuyerController = require("../controllers/buyer")
+router.post('/', BuyerController.register);
+module.exports = router;

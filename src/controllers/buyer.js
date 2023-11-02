@@ -1,4 +1,9 @@
-exports.module = async function register(req, res, next) {
+const BuyerModel = require("../models/buyer");
+const createHttpError = require("http-errors"); // You need to import createHttpError
+
+const bcrypt = require("bcrypt"); // You need to import bcrypt
+
+exports.register = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
@@ -6,13 +11,13 @@ exports.module = async function register(req, res, next) {
 
   try {
     if (!email || !password || !name || !phone) {
-      throw createHttpError(400, "Mising required parameters");
+      throw createHttpError(400, "Missing required parameters");
     }
 
-    const isUserAvailable = await BuyerModel.findOne({ email: email }).exec();
+    const isUserAvailable = await BuyerModel.findOne({ email: email });
 
     if (isUserAvailable) {
-      throw createHttpError(400, "user already exsist");
+      throw createHttpError(400, "User already exists");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
