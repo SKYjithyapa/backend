@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 const createHttpError = require("http-errors");
 const BuyerModel = require("./models/buyer");
 const bcrypt = require("bcrypt");
-
-
-
+const BuyerRoutes = require("./routes/buyer");
+app.use(express.json());
+app.use("/api/v1/",BuyerRoutes)
 
 
 app.get("/", (req, res, next) => {
@@ -35,52 +35,6 @@ app.use((err, req, res, next) => {
 
 
 
-app.post("/api/v1/buyers", async (req, res, next) => {
-  console.log(req.body);
-  
-  const email = req.body.email;
-  const password = req.body.password;
-  const name = req.body.name;
-  const phone = req.body.phone;
+//    app.post("/api/v1/buyers",);
 
-  try {
-    if (!email || !password || !name || !phone) {
-      throw createHttpError(400, "Mising required parameters");
-    }
-
-    const isUserAvailable = await BuyerModel.findOne({ email: email }).exec();
-
-    if (isUserAvailable) {
-      throw createHttpError(400, "user already exsist");
-    }
-
-    const hashedPassword =await bcrypt.hash(password,10);
-
-    const buyer = new BuyerModel({
-      name: name,
-      email: email,
-      password: hashedPassword,
-      phone: phone
-      })
-
-      const result = await buyer.save();
-      res.status(201).send(result);
-
-
-
-  } catch (error) {
-
-    next(error)
-
-  }
-});
-
-mongoose
-  .connect(process.env.MONGO_URL, {})
-  .then((result) => {
-    console.log("db connected");
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`);
-    });
-  })
-  .catch((err) => console.log(err));
+module.exports = app; 
