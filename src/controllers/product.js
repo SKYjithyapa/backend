@@ -3,6 +3,8 @@ const ProductModel = require("../models/product");
 const mongoose = require("mongoose");
 const path = require("path"); // Import the path module
 
+
+
 exports.create = async (req, res, next) => {
   const { name, description, price, company } = req.body;
   try {

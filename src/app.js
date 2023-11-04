@@ -6,8 +6,9 @@ const createHttpError = require("http-errors");
 
 const BuyerRoutes = require("./routes/buyer");
 const CompanyRoutes = require("./routes/company");
-const ProductRoutes = require("./routes/products")
-const ProductController = require("./routes/products")
+const ProductRoutes = require("./routes/products");
+const ProductController = require("./routes/products");
+const OrderRouter = require("./routes/order");
 const fileUpload = require("express-fileupload");
 app.use(fileUpload());
 
@@ -19,8 +20,8 @@ app.use('uploads/products',express.static("public/products"))
 app.use(express.json());
 app.use("/api/v1/buyers",BuyerRoutes);
 app.use("/api/v1/companies",CompanyRoutes);
-app.use("/api/v1/products",ProductController)
-
+app.use("/api/v1/products",ProductController);
+app.use("/api/v1/orders",OrderRouter);
 app.use((err, req, res, next) => {
   if (createHttpError.isHttpError(err)) {
     res.status(err.status).send({ message: err.message });

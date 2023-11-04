@@ -25,7 +25,16 @@ const buyerSchema = new Schema({
   phone: {
     type: Number, // Change 'int' to 'Number'
     required: true,
+  },
+
+  token:{
+    type : String,
+    require : false,
+
   }
+
+
+
   
 });
 
